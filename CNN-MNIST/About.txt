@@ -3,16 +3,87 @@ This code was developed by our team for a graded assignment in the core course o
 This CNN model consists of 3 convolutional blocks and 2 fully connected layers.
 
 Block 1:
--    First convolution block: Conv2d -> ReLU -> BatchNorm2d -> MaxPool
-  -    Convolution Layer: 2D Convolutional Layer
-    -    Input Channels: 1 (grayscale for MNIST)
-    -    Number of filters: 16
-    -    Kernel size: 3x3
-    -    Padding: 1
-    -    Stride: 1
-  -    Activation Function: ReLU
-  -    Batch Normalisation: BatchNorm2d
-  -    Max Pooling: Stride = 2
--    Output size:
--    After convolution: ((28 - 3 + 2*1)/1) + 1 = 28
--    After pooling: 28 / 2 = 14
+- First convolution block: Conv2d -> ReLU -> BatchNorm2d -> MaxPool
+  - Convolution Layer: 2D Convolutional Layer
+    - Input Channels: 1 (grayscale for MNIST)
+    - Number of filters: 16
+    - Kernel size: 3x3
+    - Padding: 1
+    - Stride: 1
+  - Activation Function: ReLU
+  - Batch Normalisation: BatchNorm2d
+  - Max Pooling: Stride = 2
+- Output size:
+  - After convolution: ((28 - 3 + 2*1)/1) + 1 = 28
+  - After pooling: 28 / 2 = 14
+
+Block 2:
+- Second convolution block: Conv2d -> ReLU -> BatchNorm2d -> MaxPool
+  - Convolution Layer: 2D Convolutional Layer
+    - Input Channels: 16
+    - Number of filters: 32
+    - Kernel size: 3x3
+    - Padding: 1
+    - Stride: 1
+  - Activation Function: ReLU
+  - Batch Normalisation: BatchNorm2d
+  - Max Pooling: Stride = 2
+- Output size:
+  - After convolution: ((14 - 3 + 2*1)/1) + 1 = 14
+  - After pooling: 14 / 2 = 7
+
+Block 3:
+- Third convolution block: Conv2d -> ReLU -> BatchNorm2d -> Dropouts
+  - Convolution Layer: 2D Convolutional Layer
+    - Input Channels: 32
+    - Number of filters: 64
+    - Kernel size: 3x3
+    - Padding: 1
+    - Stride: 1
+  - Activation Function: ReLU
+  - Batch Normalisation: BatchNorm2d
+  - Dropouts (for regularization): 0.25 (25%)
+- Output size:
+  - After convolution: ((7 - 3 + 2*1)/1) + 1 = 7
+
+Block 4:
+- Flatten: Converts 2D feature maps into a 1D feature vector for input to the fully connected layers.
+- Fully Connected Layer -> ReLU
+  - Fully Connected Layer
+    Dimensions: 64 x 7 x 7, 128
+- Activation Function: ReLU
+
+Block 5:
+- Fully Connected Layer -> Softmax
+  - Fully Connected Layer
+    Dimensions: 128, 10
+- Activation Function: Softmax
+
+Hyperparameter Tuning
+- num_epochs = 100
+- batchsize_train = 64
+- batchsize_test = 1000
+- learning_rate = 0.03
+- beta1 = 0.9
+- beta2 = 0.99
+
+Training Process
+The model is trained on the 60,000 training images.
+- Optimizer: Adam Optimizer
+  - Learning rate = 0.03
+  - Beta 1 = 0.9
+  - Beta 2 = 0.99
+  - Correction Factor = 10^-8
+  - Weight Decay = 0.001
+- Loss Function: Categorical Cross Entropy Loss
+  - Computes the loss between the model's predicted class probabilities and the actual target labels
+- Metrics: Accuracy and Training Loss
+- Number of Epochs: 500
+- Learning rate optimizer: Exponential Learning Rate Optimizer with gamma = 0.88
+- Batch size:
+  - Training: 64 images/batch
+  - Test: 1000 images/batch
+
+Accuracy Score:
+- Training accuracy for the model: 99.70% 
+- Test accuracy for the model: 99.30%
